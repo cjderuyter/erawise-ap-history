@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>APUSH Illustrated Visual Timeline</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Georgia", "Times New Roman", serif;
+    background: #f4ecd8;
+    color: #2b2b2b;
+    line-height: 1.4;
+  }
+  .poster {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: #fbf6e9;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  }
+  .title-bar {
+    background: linear-gradient(135deg, #b22234, #1d3557);
+    color: #fff;
+    text-align: center;
+    padding: 50px 20px 40px;
+    position: relative;
+  }
+  .title-bar::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 18px;
+    background: repeating-linear-gradient(to bottom, #b22234 0 3px, #fff 3px 6px);
+  }
+  .title-bar h1 { font-family: "Georgia", serif; font-size: 60px; letter-spacing: 6px; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+  .title-bar h2 { font-size: 22px; margin-top: 10px; font-weight: 300; letter-spacing: 4px; }
+  .title-bar .stars { font-size: 28px; letter-spacing: 14px; margin-top: 20px; }
+
+  .era-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    border-bottom: 3px dashed #d4c89a;
+    position: relative;
+  }
+  .era-rail {
+    background: #2b2b2b;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 0;
+    position: relative;
+  }
+  .era-rail .num {
+    background: #fff;
+    color: #2b2b2b;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: bold;
+    border: 4px solid #2b2b2b;
+    box-shadow: 0 0 0 3px #fbf6e9;
+    margin-bottom: 14px;
+  }
+  .era-rail .vyears {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: "Courier New", monospace;
+    font-size: 18px;
+    letter-spacing: 4px;
+    margin-top: 8px;
+    font-weight: bold;
+  }
+
+  .era-content { padding: 28px 36px; position: relative; }
+  .era-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 2px solid; }
+  .era-head h2 { font-size: 32px; line-height: 1.05; font-family: "Georgia", serif; }
+  .era-head .dates { font-family: "Courier New", monospace; font-weight: bold; font-size: 18px; padding: 4px 12px; border-radius: 4px; color: #fff; }
+  .era-tag { font-style: italic; font-size: 15px; opacity: 0.85; margin-bottom: 18px; }
+
+  .scene { background: #fff; border-radius: 8px; padding: 12px; margin-bottom: 16px;
+           box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08); }
+  .scene svg { display: block; width: 100%; height: auto; max-height: 280px; }
+  .scene img { display: block; width: 100%; height: auto; max-height: 280px; object-fit: cover; border-radius: 4px; }
+
+  .icon-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+  .ic { background: #fff; border-radius: 8px; padding: 10px 8px; text-align: center;
+        border: 2px solid; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .ic svg { width: 50px; height: 50px; flex-shrink: 0; }
+  .ic .lbl { font-size: 11px; font-weight: bold; line-height: 1.2; font-family: "Georgia", serif; }
+
+  /* per-era theming */
+  .e1  .era-head { border-color: #6d4c1f; } .e1  .era-head h2 { color:#6d4c1f; } .e1  .era-head .dates { background:#6d4c1f; } .e1 .ic { border-color:#c9a44a; }
+  .e2  .era-head { border-color: #1e6091; } .e2  .era-head h2 { color:#1e6091; } .e2  .era-head .dates { background:#1e6091; } .e2 .ic { border-color:#168aad; }
+  .e3  .era-head { border-color: #386641; } .e3  .era-head h2 { color:#386641; } .e3  .era-head .dates { background:#386641; } .e3 .ic { border-color:#6a994e; }
+  .e4  .era-head { border-color: #7d1424; } .e4  .era-head h2 { color:#7d1424; } .e4  .era-head .dates { background:#7d1424; } .e4 .ic { border-color:#b22234; }
+  .e5  .era-head { border-color: #1d3557; } .e5  .era-head h2 { color:#1d3557; } .e5  .era-head .dates { background:#1d3557; } .e5 .ic { border-color:#457b9d; }
+  .e6  .era-head { border-color: #6f1d1b; } .e6  .era-head h2 { color:#6f1d1b; } .e6  .era-head .dates { background:#6f1d1b; } .e6 .ic { border-color:#bb3e03; }
+  .e7  .era-head { border-color: #5a189a; } .e7  .era-head h2 { color:#5a189a; } .e7  .era-head .dates { background:#5a189a; } .e7 .ic { border-color:#9d4edd; }
+  .e8  .era-head { border-color: #985e25; } .e8  .era-head h2 { color:#985e25; } .e8  .era-head .dates { background:#985e25; } .e8 .ic { border-color:#f4a261; }
+  .e9  .era-head { border-color: #003049; } .e9  .era-head h2 { color:#003049; } .e9  .era-head .dates { background:#003049; } .e9 .ic { border-color:#d62828; }
+  .e10  .era-head { border-color: #2b2d42; } .e10  .era-head h2 { color:#2b2d42; } .e10  .era-head .dates { background:#2b2d42; } .e10 .ic { border-color:#8d0801; }
+  .e11 .era-head { border-color: #283618; } .e11 .era-head h2 { color:#283618; } .e11 .era-head .dates { background:#283618; } .e11 .ic { border-color:#606c38; }
+  .e12 .era-head { border-color: #6c4f1d; } .e12 .era-head h2 { color:#6c4f1d; } .e12 .era-head .dates { background:#6c4f1d; } .e12 .ic { border-color:#d4a017; }
+  .e13 .era-head { border-color: #14213d; } .e13 .era-head h2 { color:#14213d; } .e13 .era-head .dates { background:#14213d; } .e13 .ic { border-color:#fca311; }
+  .e14 .era-head { border-color: #264653; } .e14 .era-head h2 { color:#264653; } .e14 .era-head .dates { background:#264653; } .e14 .ic { border-color:#2a9d8f; }
+  .e15 .era-head { border-color: #22223b; } .e15 .era-head h2 { color:#22223b; } .e15 .era-head .dates { background:#22223b; } .e15 .ic { border-color:#4a4e69; }
+  .e16 .era-head { border-color: #640d14; } .e16 .era-head h2 { color:#640d14; } .e16 .era-head .dates { background:#640d14; } .e16 .ic { border-color:#ad2831; }
+  .e17 .era-head { border-color: #212529; } .e17 .era-head h2 { color:#212529; } .e17 .era-head .dates { background:#212529; } .e17 .ic { border-color:#495057; }
+  .e18 .era-head { border-color: #355070; } .e18 .era-head h2 { color:#355070; } .e18 .era-head .dates { background:#355070; } .e18 .ic { border-color:#6d597a; }
+  .e19 .era-head { border-color: #003d99; } .e19 .era-head h2 { color:#003d99; } .e19 .era-head .dates { background:#003d99; } .e19 .ic { border-color:#cc0000; }
+  .e20 .era-head { border-color: #0d3b66; } .e20 .era-head h2 { color:#0d3b66; } .e20 .era-head .dates { background:#0d3b66; } .e20 .ic { border-color:#faa307; }
+  .e21 .era-head { border-color: #31572c; } .e21 .era-head h2 { color:#31572c; } .e21 .era-head .dates { background:#31572c; } .e21 .ic { border-color:#4f772d; }
+  .e22 .era-head { border-color: #003049; } .e22 .era-head h2 { color:#003049; } .e22 .era-head .dates { background:#003049; } .e22 .ic { border-color:#d62828; }
+  .e23 .era-head { border-color: #023e8a; } .e23 .era-head h2 { color:#023e8a; } .e23 .era-head .dates { background:#023e8a; } .e23 .ic { border-color:#0096c7; }
+  .e24 .era-head { border-color: #2b2d42; } .e24 .era-head h2 { color:#2b2d42; } .e24 .era-head .dates { background:#2b2d42; } .e24 .ic { border-color:#ef233c; }
+  .e25 .era-head { border-color: #16213e; } .e25 .era-head h2 { color:#16213e; } .e25 .era-head .dates { background:#16213e; } .e25 .ic { border-color:#0f3460; }
+
+  .endcap { background:#1d3557; color:#fff; text-align:center; padding:30px; font-family:"Georgia",serif; font-size:18px; letter-spacing:4px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="title-bar">
+    <div class="stars">★ ★ ★ ★ ★ ★ ★</div>
+    <h1>U.S. HISTORY</h1>
+    <h2>A N   I L L U S T R A T E D   T I M E L I N E</h2>
+    <div class="stars">★ ★ ★ ★ ★ ★ ★</div>
+  </div>
+
+<!-- ERA 1 -->
+<div class="era-row e1">
+  <div class="era-rail" style="background:#6d4c1f">
+    <div class="num">1</div>
+    <div class="vyears">PRE-1492</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Pre-Columbian America</h2>
+      <div class="dates">BEFORE 1492</div>
+    </div>
+    <div class="era-tag">Diverse Indigenous civilizations thrive across the continent</div>
+    <div class="scene">
+      <img src="img/eras/era-01.jpg" alt="Era 1 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="5,42 45,42 25,8" fill="#e0c097" stroke="#6d4c1f" stroke-width="2"/><line x1="20" y1="22" x2="22" y2="2" stroke="#6d4c1f" stroke-width="2"/><line x1="30" y1="22" x2="28" y2="2" stroke="#6d4c1f" stroke-width="2"/></svg><div class="lbl">TIPIS &amp; PUEBLOS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="6" ry="18" fill="#f4d35e"/><path d="M19,8 Q25,2 31,8" stroke="#3a5a1a" stroke-width="2" fill="none"/><path d="M10,30 Q25,28 40,30" stroke="#3a5a1a" stroke-width="2" fill="none"/></svg><div class="lbl">THREE SISTERS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="5,40 45,40 35,15 15,15" fill="#8b5a2b" stroke="#6d4c1f" stroke-width="2"/><rect x="22" y="28" width="6" height="12" fill="#5c2e1a"/></svg><div class="lbl">CAHOKIA MOUND</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke="#6d4c1f" stroke-width="2"/><circle cx="14" cy="25" r="4" fill="#6d4c1f"/><circle cx="25" cy="14" r="4" fill="#6d4c1f"/><circle cx="36" cy="25" r="4" fill="#6d4c1f"/><circle cx="25" cy="36" r="4" fill="#6d4c1f"/><circle cx="25" cy="25" r="4" fill="#c9a44a"/></svg><div class="lbl">IROQUOIS LEAGUE</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 2 -->
+<div class="era-row e2">
+  <div class="era-rail" style="background:#1e6091">
+    <div class="num">2</div>
+    <div class="vyears">1492-1607</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Age of Exploration &amp; Contact</h2>
+      <div class="dates">1492 – 1607</div>
+    </div>
+    <div class="era-tag">Columbian Exchange transforms two worlds</div>
+    <div class="scene">
+      <img src="img/eras/era-02.jpg" alt="Era 2 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><path d="M5,30 L45,30 L42,40 L8,40 Z" fill="#5c3211"/><line x1="25" y1="30" x2="25" y2="8" stroke="#5c3211" stroke-width="2"/><path d="M25,10 L12,15 L12,28 L25,32 Z" fill="#fff" stroke="#888" stroke-width="1"/><path d="M25,10 L38,15 L38,28 L25,32 Z" fill="#fff" stroke="#888" stroke-width="1"/></svg><div class="lbl">COLUMBUS 1492</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#1e6091" stroke-width="2"/><polygon points="25,8 28,25 25,42 22,25" fill="#b22234"/><polygon points="8,25 25,22 42,25 25,28" fill="#1e6091"/><circle cx="25" cy="25" r="2.5" fill="#1e6091"/></svg><div class="lbl">EXPLORATION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="20" cy="20" r="6" fill="#b22234"/><circle cx="32" cy="22" r="5" fill="#b22234"/><circle cx="22" cy="32" r="5" fill="#b22234"/><circle cx="33" cy="33" r="4" fill="#b22234"/><line x1="6" y1="6" x2="44" y2="44" stroke="#000" stroke-width="3" opacity="0.4"/></svg><div class="lbl">DISEASE</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="15" cy="25" r="10" fill="#6a994e"/><line x1="15" y1="25" x2="35" y2="25" stroke="#5c3211" stroke-width="2" stroke-dasharray="2,2"/><circle cx="35" cy="25" r="10" fill="#168aad"/></svg><div class="lbl">EXCHANGE</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 3 -->
+<div class="era-row e3">
+  <div class="era-rail" style="background:#386641">
+    <div class="num">3</div>
+    <div class="vyears">1607-1754</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Colonial Era</h2>
+      <div class="dates">1607 – 1754</div>
+    </div>
+    <div class="era-tag">Three regions, thirteen colonies, salutary neglect</div>
+    <div class="scene">
+      <img src="img/eras/era-03.jpg" alt="Era 3 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="20" width="34" height="22" fill="#fff" stroke="#386641" stroke-width="2"/><polygon points="8,20 25,8 42,20" fill="#8b5a2b"/><line x1="25" y1="0" x2="25" y2="6" stroke="#386641" stroke-width="2"/><polygon points="25,2 30,4 25,6" fill="#b22234"/></svg><div class="lbl">JAMESTOWN 1607</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><path d="M5,35 L45,35 L42,42 L8,42 Z" fill="#5c3211"/><line x1="25" y1="35" x2="25" y2="12" stroke="#5c3211" stroke-width="2"/><path d="M25,14 L14,18 L14,30 L25,33 Z" fill="#fff"/><path d="M25,14 L36,18 L36,30 L25,33 Z" fill="#fff"/></svg><div class="lbl">MAYFLOWER</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="25,5 30,18 44,18 32,27 37,42 25,33 13,42 18,27 6,18 20,18" fill="#f4d35e" stroke="#6d4c1f"/></svg><div class="lbl">GREAT AWAKENING</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="14" width="30" height="22" fill="none" stroke="#386641" stroke-width="2"/><line x1="14" y1="20" x2="36" y2="20" stroke="#386641"/><line x1="14" y1="26" x2="36" y2="26" stroke="#386641"/><line x1="14" y1="32" x2="36" y2="32" stroke="#386641"/></svg><div class="lbl">SALUTARY NEGLECT</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 4 -->
+<div class="era-row e4">
+  <div class="era-rail" style="background:#7d1424">
+    <div class="num">4</div>
+    <div class="vyears">1754-1789</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Revolutionary Period</h2>
+      <div class="dates">1754 – 1789</div>
+    </div>
+    <div class="era-tag">From the French &amp; Indian War to the Constitution</div>
+    <div class="scene">
+      <img src="img/eras/era-04.jpg" alt="Era 4 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><line x1="10" y1="10" x2="40" y2="40" stroke="#1d3557" stroke-width="3"/><line x1="40" y1="10" x2="10" y2="40" stroke="#b22234" stroke-width="3"/><circle cx="25" cy="25" r="4" fill="#7d1424"/></svg><div class="lbl">F&amp;I WAR 1754-63</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="15" width="30" height="25" fill="#fff" stroke="#7d1424" stroke-width="2"/><text x="25" y="30" text-anchor="middle" font-size="10" font-weight="bold" fill="#7d1424">TAX</text><text x="25" y="38" text-anchor="middle" font-size="6" fill="#7d1424">STAMP</text></svg><div class="lbl">STAMP ACT</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="10" width="34" height="30" fill="#f4ecd8" stroke="#7d1424" stroke-width="2"/><line x1="12" y1="18" x2="38" y2="18" stroke="#7d1424"/><line x1="12" y1="24" x2="38" y2="24" stroke="#7d1424"/><line x1="12" y1="30" x2="38" y2="30" stroke="#7d1424"/><text x="25" y="14" text-anchor="middle" font-size="6" fill="#7d1424" font-weight="bold">DECLARATION</text></svg><div class="lbl">JULY 4, 1776</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="20" width="34" height="22" fill="#f4ecd8" stroke="#1d3557" stroke-width="2"/><polygon points="8,20 25,5 42,20" fill="#1d3557"/><rect x="22" y="28" width="6" height="14" fill="#1d3557"/><circle cx="25" cy="13" r="2" fill="#fff"/></svg><div class="lbl">CONSTITUTION 1787</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 5 -->
+<div class="era-row e5">
+  <div class="era-rail" style="background:#1d3557">
+    <div class="num">5</div>
+    <div class="vyears">1789-1824</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Early Republic</h2>
+      <div class="dates">1789 – 1824</div>
+    </div>
+    <div class="era-tag">Washington to Monroe — testing the Constitution</div>
+    <div class="scene">
+      <img src="img/eras/era-05.jpg" alt="Era 5 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="#dbe9f4" stroke="#1d3557" stroke-width="2"/><text x="25" y="30" text-anchor="middle" font-size="12" font-weight="bold" fill="#1d3557">G.W.</text></svg><div class="lbl">WASHINGTON</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="5" y="20" width="20" height="22" fill="#b22234" stroke="#1d3557"/><rect x="25" y="20" width="20" height="22" fill="#1d3557" stroke="#1d3557"/><text x="15" y="34" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">FED</text><text x="35" y="34" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">D-R</text></svg><div class="lbl">FIRST PARTIES</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><path d="M5,25 L15,25 L20,15 L30,35 L35,25 L45,25" stroke="#1d3557" stroke-width="2" fill="none"/><text x="25" y="45" text-anchor="middle" font-size="6" font-weight="bold" fill="#1d3557">L&amp;C TRAIL</text></svg><div class="lbl">LEWIS &amp; CLARK</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke="#1d3557" stroke-width="2"/><circle cx="25" cy="25" r="14" fill="#dbe9f4"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#1d3557">MONROE</text><text x="25" y="32" text-anchor="middle" font-size="6" font-weight="bold" fill="#b22234">DOCTRINE</text></svg><div class="lbl">MONROE 1823</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 6 -->
+<div class="era-row e6">
+  <div class="era-rail" style="background:#6f1d1b">
+    <div class="num">6</div>
+    <div class="vyears">1824-1840s</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Jacksonian Era</h2>
+      <div class="dates">1824 – 1840s</div>
+    </div>
+    <div class="era-tag">Populism rises — at the cost of Native peoples</div>
+    <div class="scene">
+      <img src="img/eras/era-06.jpg" alt="Era 6 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="5" y="40" width="40" height="6" fill="#5c3211"/><rect x="15" y="20" width="20" height="20" fill="#000"/><rect x="10" y="38" width="30" height="4" fill="#000"/></svg><div class="lbl">"COMMON MAN"</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="10" width="34" height="32" fill="#fff" stroke="#bb3e03" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="8" font-weight="bold" fill="#bb3e03">SPOILS</text><text x="25" y="32" text-anchor="middle" font-size="8" font-weight="bold" fill="#bb3e03">SYSTEM</text><circle cx="25" cy="40" r="3" fill="#f4d35e"/></svg><div class="lbl">PATRONAGE</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="5,42 25,8 45,42" fill="none" stroke="#bb3e03" stroke-width="2"/><text x="25" y="32" text-anchor="middle" font-size="14" font-weight="bold" fill="#bb3e03">!</text></svg><div class="lbl">NULLIFICATION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><path d="M10,40 Q25,20 40,40" stroke="#6f1d1b" stroke-width="2" fill="none" stroke-dasharray="3,3"/><circle cx="10" cy="40" r="2" fill="#6f1d1b"/><circle cx="40" cy="40" r="2" fill="#6f1d1b"/><text x="25" y="14" text-anchor="middle" font-size="6" fill="#6f1d1b" font-weight="bold">REMOVAL</text></svg><div class="lbl">TRAIL OF TEARS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 7 -->
+<div class="era-row e7">
+  <div class="era-rail" style="background:#5a189a">
+    <div class="num">7</div>
+    <div class="vyears">1820s-1850s</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Market Revolution &amp; Reform</h2>
+      <div class="dates">1820s – 1850s</div>
+    </div>
+    <div class="era-tag">Industry, revival, and reform reshape America</div>
+    <div class="scene">
+      <img src="img/eras/era-07.jpg" alt="Era 7 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="5" y="20" width="40" height="14" fill="#5a189a"/><circle cx="14" cy="38" r="5" fill="#3a0f5e"/><circle cx="36" cy="38" r="5" fill="#3a0f5e"/><circle cx="25" cy="38" r="5" fill="#3a0f5e"/><circle cx="22" cy="14" r="6" fill="#9d4edd"/></svg><div class="lbl">RAILROADS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="20" width="30" height="22" fill="#7a2dbb"/><rect x="18" y="8" width="6" height="14" fill="#7a2dbb"/><circle cx="21" cy="6" r="3" fill="#b39ddb"/><circle cx="28" cy="2" r="4" fill="#b39ddb"/></svg><div class="lbl">FACTORIES</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#5a189a" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="8" font-weight="bold" fill="#5a189a">FREE</text><text x="25" y="32" text-anchor="middle" font-size="8" font-weight="bold" fill="#5a189a">SLAVES</text></svg><div class="lbl">ABOLITION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="none" stroke="#5a189a" stroke-width="2"/><path d="M25,12 L25,38 M12,25 L38,25" stroke="#5a189a" stroke-width="2"/><circle cx="25" cy="25" r="3" fill="#9d4edd"/></svg><div class="lbl">WOMEN'S RIGHTS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 8 -->
+<div class="era-row e8">
+  <div class="era-rail" style="background:#985e25">
+    <div class="num">8</div>
+    <div class="vyears">1820s-1853</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Westward Expansion &amp; Manifest Destiny</h2>
+      <div class="dates">1820s &ndash; 1853</div>
+    </div>
+    <div class="era-tag">Americans push across the continent &mdash; from the Oregon Trail to the Gold Rush</div>
+    <div class="scene">
+      <img src="img/eras/era-08.jpg" alt="Era 8 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="20" rx="18" ry="12" fill="#fef3c7" stroke="#5c3211" stroke-width="2"/><circle cx="14" cy="36" r="6" fill="none" stroke="#5c3211" stroke-width="2"/><circle cx="36" cy="36" r="6" fill="none" stroke="#5c3211" stroke-width="2"/></svg><div class="lbl">OREGON TRAIL</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="14" width="34" height="28" fill="#003049"/><polygon points="25,18 28,28 38,28 30,34 33,42 25,36 17,42 20,34 12,28 22,28" fill="#fff"/></svg><div class="lbl">TEXAS 1836</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><line x1="8" y1="8" x2="42" y2="42" stroke="#5c3211" stroke-width="3"/><line x1="42" y1="8" x2="8" y2="42" stroke="#5c3211" stroke-width="3"/><circle cx="25" cy="25" r="5" fill="#bc6c25"/></svg><div class="lbl">MEX-AM WAR</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="30" rx="18" ry="6" fill="#a8a29e" stroke="#5c3211" stroke-width="2"/><ellipse cx="25" cy="28" rx="14" ry="4" fill="#444"/><circle cx="20" cy="28" r="2" fill="#ffcb47"/><circle cx="25" cy="29" r="2" fill="#ffcb47"/><circle cx="30" cy="27" r="2" fill="#ffcb47"/></svg><div class="lbl">GOLD RUSH 1849</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 9 -->
+<div class="era-row e9">
+  <div class="era-rail" style="background:#003049">
+    <div class="num">9</div>
+    <div class="vyears">1840s-1861</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Sectionalism &amp; Antebellum</h2>
+      <div class="dates">1840s – 1861</div>
+    </div>
+    <div class="era-tag">Manifest Destiny &amp; slavery split the nation in two</div>
+    <div class="scene">
+      <img src="img/eras/era-09.jpg" alt="Era 9 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="20" rx="18" ry="12" fill="#fef3c7" stroke="#5c3211" stroke-width="2"/><circle cx="14" cy="36" r="6" fill="none" stroke="#5c3211" stroke-width="2"/><circle cx="36" cy="36" r="6" fill="none" stroke="#5c3211" stroke-width="2"/></svg><div class="lbl">WESTWARD</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="10" width="34" height="32" fill="#fff" stroke="#003049" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="7" font-weight="bold" fill="#003049">UNCLE</text><text x="25" y="32" text-anchor="middle" font-size="7" font-weight="bold" fill="#003049">TOM'S</text><text x="25" y="40" text-anchor="middle" font-size="7" font-weight="bold" fill="#003049">CABIN</text></svg><div class="lbl">STOWE 1852</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#d62828" fill-opacity="0.3" stroke="#d62828" stroke-width="2"/><text x="25" y="20" text-anchor="middle" font-size="8" font-weight="bold" fill="#d62828">DRED</text><text x="25" y="30" text-anchor="middle" font-size="8" font-weight="bold" fill="#d62828">SCOTT</text><text x="25" y="40" text-anchor="middle" font-size="6" fill="#d62828">1857</text></svg><div class="lbl">DRED SCOTT</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="5" y="15" width="20" height="30" fill="#003049"/><rect x="25" y="15" width="20" height="30" fill="#d62828"/><line x1="25" y1="15" x2="25" y2="45" stroke="#000" stroke-width="3"/></svg><div class="lbl">SECESSION 1860</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 10 -->
+<div class="era-row e10">
+  <div class="era-rail" style="background:#2b2d42">
+    <div class="num">10</div>
+    <div class="vyears">1861-1865</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Civil War Era</h2>
+      <div class="dates">1861 – 1865</div>
+    </div>
+    <div class="era-tag">Brother against brother — and the end of slavery</div>
+    <div class="scene">
+      <img src="img/eras/era-10.jpg" alt="Era 10 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="14" width="30" height="22" fill="#1d3557"/><ellipse cx="25" cy="14" rx="15" ry="4" fill="#1d3557"/><rect x="10" y="32" width="30" height="6" fill="#1d3557"/></svg><div class="lbl">UNION (BLUE)</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="14" width="30" height="22" fill="#7a7a7a"/><ellipse cx="25" cy="14" rx="15" ry="4" fill="#7a7a7a"/><rect x="10" y="32" width="30" height="6" fill="#7a7a7a"/></svg><div class="lbl">CONFEDERATE (GRAY)</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#2b2d42" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#2b2d42">EMANCI-</text><text x="25" y="30" text-anchor="middle" font-size="6" font-weight="bold" fill="#2b2d42">PATION</text><text x="25" y="38" text-anchor="middle" font-size="7" font-weight="bold" fill="#8d0801">1863</text></svg><div class="lbl">EMANCIPATION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="10,40 40,40 25,8" fill="#2b2d42"/><rect x="22" y="40" width="6" height="6" fill="#2b2d42"/><text x="25" y="30" text-anchor="middle" font-size="7" font-weight="bold" fill="#fff">L</text></svg><div class="lbl">LINCOLN'S HAT</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 11 -->
+<div class="era-row e11">
+  <div class="era-rail" style="background:#283618">
+    <div class="num">11</div>
+    <div class="vyears">1865-1877</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Reconstruction Era</h2>
+      <div class="dates">1865 – 1877</div>
+    </div>
+    <div class="era-tag">Rebuilding the South — and redefining citizenship</div>
+    <div class="scene">
+      <img src="img/eras/era-11.jpg" alt="Era 11 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="14" width="34" height="28" fill="#fff" stroke="#283618" stroke-width="2"/><text x="25" y="24" text-anchor="middle" font-size="6" font-weight="bold" fill="#283618">13/14/15</text><text x="25" y="35" text-anchor="middle" font-size="7" fill="#283618">AMEND.</text></svg><div class="lbl">3 AMENDMENTS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="20" width="30" height="22" fill="#8b5a2b" stroke="#283618" stroke-width="2"/><rect x="20" y="14" width="10" height="6" fill="#283618"/><text x="25" y="35" text-anchor="middle" font-size="7" font-weight="bold" fill="#f4d35e">VOTE</text></svg><div class="lbl">BLACK SUFFRAGE</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="10,40 25,15 40,40 10,40" fill="#fff" stroke="#283618" stroke-width="2"/><rect x="20" y="30" width="10" height="10" fill="#5c3211"/><polygon points="3,40 47,40 25,12" fill="none" stroke="#606c38" stroke-width="1" stroke-dasharray="3,2"/></svg><div class="lbl">SHARECROPPING</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#606c38" stroke-width="2"/><text x="25" y="20" text-anchor="middle" font-size="7" font-weight="bold" fill="#606c38">JIM</text><text x="25" y="32" text-anchor="middle" font-size="7" font-weight="bold" fill="#606c38">CROW</text><text x="25" y="42" text-anchor="middle" font-size="6" fill="#606c38">1877</text></svg><div class="lbl">JIM CROW BEGINS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 12 -->
+<div class="era-row e12">
+  <div class="era-rail" style="background:#6c4f1d">
+    <div class="num">12</div>
+    <div class="vyears">1877-1900</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Gilded Age</h2>
+      <div class="dates">1877 – 1900</div>
+    </div>
+    <div class="era-tag">Gold on the surface — corruption underneath</div>
+    <div class="scene">
+      <img src="img/eras/era-12.jpg" alt="Era 12 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="2" width="30" height="32" fill="#000"/><rect x="5" y="32" width="40" height="6" fill="#000"/><circle cx="25" cy="44" r="6" fill="#fff" stroke="#000"/></svg><div class="lbl">ROBBER BARONS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="18" ry="20" fill="#d4a017" stroke="#6c4f1d" stroke-width="2"/><text x="25" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#6c4f1d">$</text></svg><div class="lbl">BIG BUSINESS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="20" width="30" height="22" fill="#5c4220"/><rect x="18" y="8" width="6" height="14" fill="#5c4220"/><circle cx="22" cy="6" r="3" fill="#a08018" opacity="0.5"/><circle cx="30" cy="2" r="4" fill="#a08018" opacity="0.5"/></svg><div class="lbl">INDUSTRY</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><path d="M5,40 L15,15 L25,5 L35,15 L45,40 Z" fill="#d4a017" stroke="#6c4f1d" stroke-width="2"/><circle cx="15" cy="22" r="3" fill="#6c4f1d"/><circle cx="35" cy="22" r="3" fill="#6c4f1d"/><circle cx="25" cy="32" r="3" fill="#6c4f1d"/></svg><div class="lbl">IMMIGRATION</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 13 -->
+<div class="era-row e13">
+  <div class="era-rail" style="background:#14213d">
+    <div class="num">13</div>
+    <div class="vyears">1890-1914</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>American Imperialism</h2>
+      <div class="dates">1890 &ndash; 1914</div>
+    </div>
+    <div class="era-tag">The U.S. becomes a global empire &mdash; Cuba, Hawaii, Philippines, Panama</div>
+    <div class="scene">
+      <img src="img/eras/era-13.jpg" alt="Era 13 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><path d="M5,28 L45,28 L42,38 L8,38 Z" fill="#444"/><rect x="14" y="22" width="22" height="8" fill="#666"/><rect x="22" y="12" width="6" height="14" fill="#555"/><circle cx="25" cy="10" r="3" fill="#999"/></svg><div class="lbl">SPAN.-AM. WAR 1898</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><line x1="25" y1="10" x2="20" y2="46" stroke="#5c3211" stroke-width="3"/><ellipse cx="25" cy="10" rx="16" ry="4" fill="#4f772d" transform="rotate(-30 25 10)"/><ellipse cx="25" cy="10" rx="16" ry="4" fill="#4f772d" transform="rotate(30 25 10)"/><ellipse cx="25" cy="10" rx="16" ry="4" fill="#386641" transform="rotate(70 25 10)"/></svg><div class="lbl">HAWAII ANNEXED</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="6" y="22" width="38" height="8" fill="#0096c7"/><polygon points="13,18 30,18 27,26 16,26" fill="#666"/><rect x="19" y="12" width="5" height="6" fill="#444"/><rect x="6" y="22" width="3" height="20" fill="#222"/><rect x="41" y="22" width="3" height="20" fill="#222"/></svg><div class="lbl">PANAMA CANAL</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="20" y="20" width="10" height="22" fill="#14213d"/><circle cx="25" cy="14" r="8" fill="#fcd5b5"/><circle cx="22" cy="13" r="2" fill="#000"/><circle cx="28" cy="13" r="2" fill="#000"/><line x1="30" y1="22" x2="46" y2="38" stroke="#5c3211" stroke-width="4"/></svg><div class="lbl">"BIG STICK" TR</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 14 -->
+<div class="era-row e14">
+  <div class="era-rail" style="background:#264653">
+    <div class="num">14</div>
+    <div class="vyears">1890s-1920</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Progressive Era</h2>
+      <div class="dates">1890s – 1920</div>
+    </div>
+    <div class="era-tag">Reformers tame industry, expand democracy</div>
+    <div class="scene">
+      <img src="img/eras/era-14.jpg" alt="Era 14 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="20" width="30" height="20" fill="#666"/><line x1="25" y1="0" x2="25" y2="20" stroke="#5c3211" stroke-width="3"/><rect x="15" y="0" width="20" height="8" fill="#5c3211"/></svg><div class="lbl">TRUST-BUSTING</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="10" width="34" height="32" fill="#fff" stroke="#264653" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#264653">VOTES</text><text x="25" y="32" text-anchor="middle" font-size="6" font-weight="bold" fill="#264653">FOR</text><text x="25" y="40" text-anchor="middle" font-size="6" font-weight="bold" fill="#264653">WOMEN</text></svg><div class="lbl">19th AMENDMENT</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="14" width="30" height="22" fill="#fff" stroke="#264653" stroke-width="2"/><line x1="14" y1="20" x2="36" y2="20" stroke="#264653"/><line x1="14" y1="26" x2="36" y2="26" stroke="#264653"/><line x1="14" y1="32" x2="36" y2="32" stroke="#264653"/><circle cx="40" cy="40" r="5" fill="none" stroke="#264653" stroke-width="2"/></svg><div class="lbl">MUCKRAKERS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#2a9d8f" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#264653">SQUARE</text><text x="25" y="32" text-anchor="middle" font-size="7" font-weight="bold" fill="#264653">DEAL</text></svg><div class="lbl">TR REFORMS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 15 -->
+<div class="era-row e15">
+  <div class="era-rail" style="background:#22223b">
+    <div class="num">15</div>
+    <div class="vyears">1914-1918</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>World War I Era</h2>
+      <div class="dates">1914 – 1918  ·  U.S. in 1917 – 1918</div>
+    </div>
+    <div class="era-tag">U.S. emerges as a world power — then retreats</div>
+    <div class="scene">
+      <img src="img/eras/era-15.jpg" alt="Era 15 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="14" y="18" width="22" height="14" fill="#9a8c98"/><ellipse cx="25" cy="32" rx="14" ry="3" fill="#9a8c98"/></svg><div class="lbl">DOUGHBOYS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#22223b" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#22223b">LUSI-</text><text x="25" y="32" text-anchor="middle" font-size="6" font-weight="bold" fill="#22223b">TANIA</text><text x="25" y="42" text-anchor="middle" font-size="6" fill="#b22234">1915</text></svg><div class="lbl">U-BOAT WARFARE</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="6" y="14" width="38" height="24" fill="#fff" stroke="#22223b" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="5" font-weight="bold" fill="#22223b">ZIMMERMANN</text><text x="25" y="32" text-anchor="middle" font-size="6" font-weight="bold" fill="#b22234">TELEGRAM</text></svg><div class="lbl">ZIMMERMANN</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="25,5 30,18 44,18 32,27 37,42 25,33 13,42 18,27 6,18 20,18" fill="none" stroke="#22223b" stroke-width="2"/><text x="25" y="28" text-anchor="middle" font-size="7" font-weight="bold" fill="#22223b">14</text></svg><div class="lbl">14 POINTS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 16 -->
+<div class="era-row e16">
+  <div class="era-rail" style="background:#640d14">
+    <div class="num">16</div>
+    <div class="vyears">1920-1929</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Roaring Twenties</h2>
+      <div class="dates">1920 – 1929</div>
+    </div>
+    <div class="era-tag">Jazz, flappers, Model T's — and a culture war</div>
+    <div class="scene">
+      <img src="img/eras/era-16.jpg" alt="Era 16 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="20" cy="25" r="6" fill="#000"/><line x1="26" y1="25" x2="26" y2="8" stroke="#000" stroke-width="2"/><circle cx="35" cy="35" r="6" fill="#000"/><line x1="41" y1="35" x2="41" y2="18" stroke="#000" stroke-width="2"/></svg><div class="lbl">JAZZ AGE</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="15" y="20" width="20" height="20" fill="#640d14"/><circle cx="25" cy="14" r="6" fill="#fcd5b5"/><ellipse cx="25" cy="11" rx="7" ry="4" fill="#640d14"/></svg><div class="lbl">FLAPPERS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="none" stroke="#b22234" stroke-width="3"/><line x1="10" y1="10" x2="40" y2="40" stroke="#b22234" stroke-width="3"/><rect x="20" y="22" width="10" height="14" fill="#1d3557"/></svg><div class="lbl">PROHIBITION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polyline points="5,15 15,18 25,28 35,40 45,42" fill="none" stroke="#b22234" stroke-width="3"/><polygon points="38,38 45,42 40,46" fill="#b22234"/></svg><div class="lbl">CRASH OF '29</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 17 -->
+<div class="era-row e17">
+  <div class="era-rail" style="background:#212529">
+    <div class="num">17</div>
+    <div class="vyears">1929-1941</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Great Depression &amp; New Deal</h2>
+      <div class="dates">1929 – 1941</div>
+    </div>
+    <div class="era-tag">FDR rebuilds confidence — and the federal government</div>
+    <div class="scene">
+      <img src="img/eras/era-17.jpg" alt="Era 17 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><polyline points="5,15 15,18 25,28 35,40 45,42" fill="none" stroke="#212529" stroke-width="3"/><polygon points="38,38 45,42 40,46" fill="#212529"/></svg><div class="lbl">CRASH/DEPRESSION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="20" cy="20" r="6" fill="#212529"/><path d="M14,25 L16,40 L20,32 L24,40 L26,25 Z" fill="#212529"/><circle cx="34" cy="20" r="5" fill="#212529"/><path d="M29,25 L31,40 L34,32 L37,40 L39,25 Z" fill="#212529"/></svg><div class="lbl">BREADLINES</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#212529" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="9" font-weight="bold" fill="#212529">FDR</text><text x="25" y="34" text-anchor="middle" font-size="6" fill="#212529">NEW DEAL</text></svg><div class="lbl">FDR</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="20" width="34" height="22" fill="#5c3211" stroke="#212529" stroke-width="2"/><circle cx="18" cy="30" r="3" fill="#f4d35e"/><rect x="26" y="26" width="14" height="3" fill="#f4d35e"/><rect x="26" y="33" width="14" height="3" fill="#f4d35e"/><rect x="22" y="14" width="2" height="8" fill="#212529"/></svg><div class="lbl">FIRESIDE CHATS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 18 -->
+<div class="era-row e18">
+  <div class="era-rail" style="background:#355070">
+    <div class="num">18</div>
+    <div class="vyears">1941-1945</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>World War II Era</h2>
+      <div class="dates">1941 – 1945</div>
+    </div>
+    <div class="era-tag">From Pearl Harbor to atomic bomb — America becomes a superpower</div>
+    <div class="scene">
+      <img src="img/eras/era-18.jpg" alt="Era 18 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="25,5 30,18 44,18 32,27 37,42 25,33 13,42 18,27 6,18 20,18" fill="#ee9b00"/></svg><div class="lbl">PEARL HARBOR</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="20" y="20" width="10" height="20" fill="#1d3557"/><circle cx="25" cy="14" r="8" fill="#fcd5b5"/><path d="M14,10 Q25,2 36,10" fill="#b22234"/></svg><div class="lbl">ROSIE / HOMEFRONT</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><path d="M5,30 L45,30 L40,38 L10,38 Z" fill="#355070"/><polygon points="10,30 5,22 12,22" fill="#355070"/><polygon points="40,30 45,22 38,22" fill="#355070"/><circle cx="20" cy="30" r="3" fill="#000"/><circle cx="30" cy="30" r="3" fill="#000"/></svg><div class="lbl">D-DAY 1944</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="14" rx="20" ry="10" fill="#ee9b00"/><rect x="20" y="22" width="10" height="20" fill="#ca6702"/><ellipse cx="25" cy="42" rx="14" ry="3" fill="#ca6702"/></svg><div class="lbl">ATOMIC BOMB</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 19 -->
+<div class="era-row e19">
+  <div class="era-rail" style="background:#003d99">
+    <div class="num">19</div>
+    <div class="vyears">1945-1960s</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Early Cold War Era</h2>
+      <div class="dates">1945 – 1960s</div>
+    </div>
+    <div class="era-tag">U.S. vs. USSR — containment, fear, and the bomb</div>
+    <div class="scene">
+      <img src="img/eras/era-19.jpg" alt="Era 19 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#003d99" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#003d99">CONTAIN-</text><text x="25" y="32" text-anchor="middle" font-size="7" font-weight="bold" fill="#003d99">MENT</text></svg><div class="lbl">CONTAINMENT</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polygon points="25,5 32,15 32,40 18,40 18,15" fill="#999" stroke="#000"/><polygon points="25,5 32,15 18,15" fill="#cc0000"/></svg><div class="lbl">NUCLEAR ARMS</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="14" fill="#999"/><line x1="25" y1="25" x2="10" y2="10" stroke="#999" stroke-width="2"/><line x1="25" y1="25" x2="40" y2="10" stroke="#999" stroke-width="2"/><line x1="25" y1="25" x2="10" y2="40" stroke="#999" stroke-width="2"/><line x1="25" y1="25" x2="40" y2="40" stroke="#999" stroke-width="2"/></svg><div class="lbl">SPACE RACE</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="14" width="30" height="22" fill="#cc0000"/><text x="25" y="30" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">RED</text></svg><div class="lbl">RED SCARE</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 20 -->
+<div class="era-row e20">
+  <div class="era-rail" style="background:#0d3b66">
+    <div class="num">20</div>
+    <div class="vyears">1950s-1960s</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Civil Rights Movement</h2>
+      <div class="dates">1950s – 1960s</div>
+    </div>
+    <div class="era-tag">Marching, sitting, voting — dismantling Jim Crow</div>
+    <div class="scene">
+      <img src="img/eras/era-20.jpg" alt="Era 20 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="14" width="34" height="22" fill="#fff" stroke="#0d3b66" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#0d3b66">BROWN v.</text><text x="25" y="32" text-anchor="middle" font-size="6" font-weight="bold" fill="#0d3b66">BOARD</text><text x="25" y="42" text-anchor="middle" font-size="7" font-weight="bold" fill="#faa307">1954</text></svg><div class="lbl">BROWN v. BOARD</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="20" width="34" height="14" fill="#faa307"/><circle cx="14" cy="36" r="3" fill="#0d3b66"/><circle cx="36" cy="36" r="3" fill="#0d3b66"/><rect x="12" y="22" width="6" height="6" fill="#0d3b66"/><rect x="22" y="22" width="6" height="6" fill="#0d3b66"/><rect x="32" y="22" width="6" height="6" fill="#0d3b66"/></svg><div class="lbl">MONTGOMERY</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#0d3b66" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="9" font-weight="bold" fill="#0d3b66">MLK</text><text x="25" y="35" text-anchor="middle" font-size="6" fill="#0d3b66">DREAM</text></svg><div class="lbl">MLK / DREAM</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="10" width="34" height="32" fill="#fff" stroke="#0d3b66" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#0d3b66">CRA '64</text><text x="25" y="32" text-anchor="middle" font-size="6" font-weight="bold" fill="#0d3b66">VRA '65</text></svg><div class="lbl">LANDMARK LAWS</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 21 -->
+<div class="era-row e21">
+  <div class="era-rail" style="background:#31572c">
+    <div class="num">21</div>
+    <div class="vyears">1960s-1975</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Vietnam &amp; Social Upheaval</h2>
+      <div class="dates">1960s – 1975</div>
+    </div>
+    <div class="era-tag">War abroad, counterculture at home, trust shattered</div>
+    <div class="scene">
+      <img src="img/eras/era-21.jpg" alt="Era 21 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="14" ry="6" fill="#4f772d"/><line x1="25" y1="20" x2="25" y2="10" stroke="#000" stroke-width="2"/><ellipse cx="25" cy="10" rx="20" ry="2" fill="#000"/></svg><div class="lbl">VIETNAM</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="none" stroke="#31572c" stroke-width="2"/><line x1="25" y1="7" x2="25" y2="43" stroke="#31572c" stroke-width="2"/><line x1="25" y1="25" x2="13" y2="37" stroke="#31572c" stroke-width="2"/><line x1="25" y1="25" x2="37" y2="37" stroke="#31572c" stroke-width="2"/></svg><div class="lbl">PEACE / PROTEST</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="20" width="30" height="22" fill="#fff" stroke="#31572c" stroke-width="2"/><text x="25" y="30" text-anchor="middle" font-size="6" font-weight="bold" fill="#31572c">GREAT</text><text x="25" y="38" text-anchor="middle" font-size="7" font-weight="bold" fill="#31572c">SOCIETY</text></svg><div class="lbl">LBJ GREAT SOCIETY</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="14" fill="#cccccc"/><circle cx="20" cy="20" r="2" fill="#888"/><circle cx="30" cy="28" r="2" fill="#888"/><circle cx="25" cy="32" r="2" fill="#888"/></svg><div class="lbl">MOON LANDING</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 22 -->
+<div class="era-row e22">
+  <div class="era-rail" style="background:#003049">
+    <div class="num">22</div>
+    <div class="vyears">1970s-1991</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Late Cold War &amp; Reagan Era</h2>
+      <div class="dates">1970s – 1991</div>
+    </div>
+    <div class="era-tag">Watergate, oil shocks, Reagan revolution, USSR collapse</div>
+    <div class="scene">
+      <img src="img/eras/era-22.jpg" alt="Era 22 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="10" width="34" height="32" fill="#fdf0d5" stroke="#003049" stroke-width="2"/><rect x="12" y="14" width="6" height="6" fill="#003049"/><rect x="22" y="14" width="6" height="6" fill="#003049"/><rect x="32" y="14" width="6" height="6" fill="#003049"/><rect x="12" y="24" width="6" height="6" fill="#003049"/><rect x="22" y="24" width="6" height="6" fill="#003049"/><rect x="32" y="24" width="6" height="6" fill="#003049"/></svg><div class="lbl">WATERGATE</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="14" y="14" width="22" height="28" fill="#d62828"/><rect x="18" y="20" width="14" height="10" fill="#fff"/><text x="25" y="28" text-anchor="middle" font-size="8" font-weight="bold" fill="#d62828">$</text></svg><div class="lbl">STAGFLATION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#003049" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="9" font-weight="bold" fill="#003049">RR</text><text x="25" y="35" text-anchor="middle" font-size="6" fill="#003049">REVOLUTION</text></svg><div class="lbl">REAGAN</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="8" y="14" width="6" height="28" fill="#9a8c98"/><rect x="14" y="14" width="6" height="28" fill="#9a8c98" transform="rotate(15 17 28)"/><rect x="30" y="14" width="6" height="28" fill="#9a8c98" transform="rotate(30 33 28)"/><rect x="40" y="14" width="6" height="28" fill="#9a8c98"/></svg><div class="lbl">WALL FALLS '89</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 23 -->
+<div class="era-row e23">
+  <div class="era-rail" style="background:#023e8a">
+    <div class="num">23</div>
+    <div class="vyears">1991-2001</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Post–Cold War Era</h2>
+      <div class="dates">1991 – 2001</div>
+    </div>
+    <div class="era-tag">Globalization, dot-com boom, sole superpower</div>
+    <div class="scene">
+      <img src="img/eras/era-23.jpg" alt="Era 23 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#48cae4" stroke="#023e8a" stroke-width="2"/><ellipse cx="25" cy="25" rx="18" ry="6" fill="none" stroke="#fff"/><ellipse cx="25" cy="25" rx="6" ry="18" fill="none" stroke="#fff"/></svg><div class="lbl">GLOBALIZATION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="6" y="10" width="38" height="26" fill="#222"/><rect x="10" y="14" width="30" height="18" fill="#48cae4"/><text x="25" y="26" text-anchor="middle" font-size="6" font-weight="bold" fill="#fff">.COM</text></svg><div class="lbl">DOT-COM BOOM</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="6" y="14" width="38" height="22" fill="#fff" stroke="#023e8a"/><text x="25" y="28" text-anchor="middle" font-size="9" font-weight="bold" fill="#023e8a">NAFTA</text></svg><div class="lbl">NAFTA 1994</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#fff" stroke="#023e8a" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#023e8a">CLINTON</text><text x="25" y="32" text-anchor="middle" font-size="6" font-weight="bold" fill="#023e8a">YEARS</text></svg><div class="lbl">CLINTON</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 24 -->
+<div class="era-row e24">
+  <div class="era-rail" style="background:#2b2d42">
+    <div class="num">24</div>
+    <div class="vyears">2001-2010s</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>War on Terror Era</h2>
+      <div class="dates">2001 – 2010s</div>
+    </div>
+    <div class="era-tag">9/11 changes everything — wars, surveillance, recession</div>
+    <div class="scene">
+      <img src="img/eras/era-24.jpg" alt="Era 24 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="14" y="6" width="10" height="36" fill="#2b2d42"/><rect x="26" y="6" width="10" height="36" fill="#2b2d42"/><circle cx="40" cy="14" r="3" fill="#ef233c"/></svg><div class="lbl">9/11</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="10" y="14" width="30" height="22" fill="#fff" stroke="#2b2d42" stroke-width="2"/><text x="25" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#2b2d42">PATRIOT</text><text x="25" y="32" text-anchor="middle" font-size="7" font-weight="bold" fill="#2b2d42">ACT</text></svg><div class="lbl">PATRIOT ACT</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><polyline points="5,15 15,18 25,28 35,40 45,42" fill="none" stroke="#ef233c" stroke-width="3"/><polygon points="38,38 45,42 40,46" fill="#ef233c"/></svg><div class="lbl">2008 CRASH</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="#003d99" stroke="#fff" stroke-width="2"/><text x="25" y="20" text-anchor="middle" font-size="6" font-weight="bold" fill="#fff">OBAMA</text><text x="25" y="30" text-anchor="middle" font-size="6" font-weight="bold" fill="#fff">FIRST</text><text x="25" y="38" text-anchor="middle" font-size="5" fill="#fff">BLACK PRES.</text></svg><div class="lbl">OBAMA</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ERA 25 -->
+<div class="era-row e25">
+  <div class="era-rail" style="background:#16213e">
+    <div class="num">25</div>
+    <div class="vyears">2010s-NOW</div>
+  </div>
+  <div class="era-content">
+    <div class="era-head">
+      <h2>Contemporary Era</h2>
+      <div class="dates">2010s – Present</div>
+    </div>
+    <div class="era-tag">Polarization, pandemic, AI, and a contested democracy</div>
+    <div class="scene">
+      <img src="img/eras/era-25.jpg" alt="Era 25 illustration">
+    </div>
+    <div class="icon-row">
+      <div class="ic"><svg viewBox="0 0 50 50"><rect x="12" y="6" width="26" height="38" fill="#222" rx="3"/><rect x="14" y="10" width="22" height="28" fill="#0096c7"/></svg><div class="lbl">SOCIAL MEDIA</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="14" fill="#ad2831"/><line x1="25" y1="11" x2="25" y2="6" stroke="#ad2831" stroke-width="2"/><line x1="25" y1="39" x2="25" y2="44" stroke="#ad2831" stroke-width="2"/><line x1="11" y1="25" x2="6" y2="25" stroke="#ad2831" stroke-width="2"/><line x1="39" y1="25" x2="44" y2="25" stroke="#ad2831" stroke-width="2"/></svg><div class="lbl">COVID-19</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><circle cx="15" cy="25" r="12" fill="#003d99"/><circle cx="35" cy="25" r="12" fill="#cc0000"/><line x1="22" y1="15" x2="28" y2="35" stroke="#fff" stroke-width="2"/><line x1="28" y1="15" x2="22" y2="35" stroke="#fff" stroke-width="2"/></svg><div class="lbl">POLARIZATION</div></div>
+      <div class="ic"><svg viewBox="0 0 50 50"><ellipse cx="25" cy="25" rx="20" ry="16" fill="#0096c7"/><circle cx="18" cy="20" r="2" fill="#fff"/><circle cx="25" cy="18" r="2" fill="#fff"/><circle cx="32" cy="20" r="2" fill="#fff"/><circle cx="22" cy="28" r="2" fill="#fff"/><circle cx="30" cy="28" r="2" fill="#fff"/></svg><div class="lbl">AI / TECH</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="endcap">★ ★ ★ &

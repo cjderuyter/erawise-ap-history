@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>APUSH Era 9: Sectionalism & Antebellum (1840s-1861)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #e8e8e8;
+    color: #1a1a1a;
+    line-height: 1.4;
+    padding: 0; margin: 0;
+  }
+  .era {
+    page-break-after: always;
+    width: 8.5in;
+    height: 11in;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .era-header {
+    color: #fff;
+    padding: 30px 40px 24px 40px;
+    position: relative;
+  }
+  .era-header .era-num {
+    position: absolute;
+    top: 20px; right: 30px;
+    background: rgba(255,255,255,0.2);
+    border: 3px solid rgba(255,255,255,0.7);
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: bold;
+  }
+  .era-header h1 { font-size: 32px; margin-bottom: 6px; margin-right: 90px; line-height: 1.1; }
+  .era-header .dates { font-size: 22px; font-weight: 300; opacity: 0.95; letter-spacing: 1px; }
+  .era-header .tagline {
+    margin-top: 14px; font-size: 14px; font-style: italic;
+    background: rgba(0,0,0,0.2); padding: 8px 14px;
+    border-left: 4px solid rgba(255,255,255,0.6);
+    margin-right: 90px;
+  }
+  .era-body { padding: 24px 36px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+  .big-idea {
+    background: #f8f4e8; border-left: 5px solid #c9a44a;
+    padding: 12px 16px; font-size: 13px;
+  }
+  .big-idea .label {
+    font-weight: bold; color: #8a6a1f;
+    text-transform: uppercase; letter-spacing: 1px; font-size: 11px; margin-bottom: 4px;
+  }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; flex: 1; }
+  .col {
+    border: 2px solid #ddd; border-radius: 6px; padding: 14px;
+    display: flex; flex-direction: column;
+  }
+  .col h3 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px;
+    padding-bottom: 8px; margin-bottom: 10px; border-bottom: 2px solid; text-align: center;
+  }
+  .col ul { list-style: none; padding: 0; }
+  .col li {
+    font-size: 11.5px; padding: 4px 0 4px 14px; position: relative;
+    line-height: 1.35; border-bottom: 1px dotted #eee;
+  }
+  .col li:last-child { border-bottom: none; }
+  .col li::before { content: "▸"; position: absolute; left: 0; font-size: 10px; top: 5px; }
+  .col li strong { font-weight: 700; }
+  .col li .yr {
+    background: #1a1a1a; color: #fff; font-size: 9px;
+    padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: bold;
+  }
+  .legacy {
+    background: #1a1a1a; color: #fff; padding: 10px 16px;
+    font-size: 12px; border-radius: 4px;
+  }
+  .legacy .label {
+    font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px;
+    font-size: 10px; color: #ffd700; margin-bottom: 3px;
+  }
+  .era-footer {
+    background: #f0f0f0; color: #555; font-size: 10px;
+    padding: 6px 36px; text-align: center;
+    border-top: 1px solid #ddd; letter-spacing: 1px;
+  }
+
+  /* Era theming for all 25 eras */
+  .e1 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e1 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e1 .col li::before { color: #c9a44a; }
+
+  .e2 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e2 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e2 .col li::before { color: #c9a44a; }
+
+  .e3 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e3 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e3 .col li::before { color: #c9a44a; }
+
+  .e4 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e4 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e4 .col li::before { color: #c9a44a; }
+
+  .e5 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e5 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e5 .col li::before { color: #c9a44a; }
+
+  .e6 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e6 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e6 .col li::before { color: #c9a44a; }
+
+  .e7 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e7 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e7 .col li::before { color: #c9a44a; }
+
+  .e8 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e8 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e8 .col li::before { color: #c9a44a; }
+
+  .e9 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e9 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e9 .col li::before { color: #c9a44a; }
+
+  .e10 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e10 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e10 .col li::before { color: #c9a44a; }
+
+  .e11 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e11 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e11 .col li::before { color: #c9a44a; }
+
+  .e12 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e12 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e12 .col li::before { color: #c9a44a; }
+
+  .e13 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e13 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e13 .col li::before { color: #c9a44a; }
+
+  .e14 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e14 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e14 .col li::before { color: #c9a44a; }
+
+  .e15 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e15 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e15 .col li::before { color: #c9a44a; }
+
+  .e16 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e16 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e16 .col li::before { color: #c9a44a; }
+
+  .e17 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e17 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e17 .col li::before { color: #c9a44a; }
+
+  .e18 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e18 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e18 .col li::before { color: #c9a44a; }
+
+  .e19 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e19 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e19 .col li::before { color: #c9a44a; }
+
+  .e20 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e20 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e20 .col li::before { color: #c9a44a; }
+
+  .e21 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e21 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e21 .col li::before { color: #c9a44a; }
+
+  .e22 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e22 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e22 .col li::before { color: #c9a44a; }
+
+  .e23 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e23 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e23 .col li::before { color: #c9a44a; }
+
+  .e24 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e24 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e24 .col li::before { color: #c9a44a; }
+
+  .e25 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e25 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e25 .col li::before { color: #c9a44a; }
+
+  @media print {
+    body { background: #fff; }
+    .era { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="era e9">
+  <div class="era-header">
+    <div class="era-num">9</div>
+    <h1>Sectionalism &amp; Antebellum Era</h1>
+    <div class="dates">1840s – 1861</div>
+    <div class="tagline">Manifest Destiny and slavery push North and South toward irreconcilable conflict.</div>
+  </div>
+  <div class="era-body">
+    <div class="big-idea">
+      <div class="label">Big Idea</div>
+      Each new western territory raised the same question — slave or free? — until compromise broke down completely and Lincoln's election triggered Southern secession.
+    </div>
+    <div class="three-col">
+      <div class="col">
+        <h3>Key Terms</h3>
+        <ul>
+          <li><strong>Manifest Destiny</strong> — divine right to expand</li>
+          <li><strong>Wilmot Proviso</strong> — proposed slavery ban in Mexican Cession</li>
+          <li><strong>Compromise of 1850</strong> — Cal. free, Fugitive Slave Act</li>
+          <li><strong>Fugitive Slave Act</strong> — required return of runaways</li>
+          <li><strong>Popular sovereignty</strong> — settlers vote on slavery</li>
+          <li><strong>Kansas-Nebraska Act</strong> <span class="yr">1854</span></li>
+          <li><strong>"Bleeding Kansas"</strong> — pro/anti slavery violence</li>
+          <li><strong>Republican Party</strong> founded <span class="yr">1854</span></li>
+          <li><strong>Dred Scott decision</strong> <span class="yr">1857</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Key People</h3>
+        <ul>
+          <li><strong>James K. Polk</strong> — Mexican-American War president</li>
+          <li><strong>Henry Clay</strong> — "Great Compromiser"</li>
+          <li><strong>Stephen Douglas</strong> — Kansas-Nebraska, debated Lincoln</li>
+          <li><strong>Harriet Beecher Stowe</strong> — <em>Uncle Tom's Cabin</em> <span class="yr">1852</span></li>
+          <li><strong>John Brown</strong> — radical abolitionist (Harpers Ferry)</li>
+          <li><strong>Abraham Lincoln</strong> — Republican, elected 1860</li>
+          <li><strong>Jefferson Davis</strong> — future Confederate president</li>
+          <li><strong>Roger Taney</strong> — Chief Justice (Dred Scott)</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Key Events</h3>
+        <ul>
+          <li>Texas annexed <span class="yr">1845</span></li>
+          <li>Mexican-American War <span class="yr">1846–48</span></li>
+          <li>Treaty of Guadalupe Hidalgo <span class="yr">1848</span></li>
+          <li>Compromise of 1850</li>
+          <li><em>Uncle Tom's Cabin</em> published <span class="yr">1852</span></li>
+          <li>Kansas-Nebraska Act <span class="yr">1854</span></li>
+          <li>Bleeding Kansas <span class="yr">1854–59</span></li>
+          <li>Dred Scott v. Sandford <span class="yr">1857</span></li>
+          <li>Lincoln-Douglas Debates <span class="yr">1858</span></li>
+          <li>John Brown's raid on Harpers Ferry <span class="yr">1859</span></li>
+          <li>Lincoln elected; SC secedes <span class="yr">1860</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legacy">
+      <div class="label">Legacy &amp; Connection</div>
+      Compromise repeatedly delayed but never solved the slavery question. The breakdown of compromise produced the Civil War.
+    </div>
+  </div>
+  <div class="era-footer">APUSH · Period 5 · ERA 9 OF 25</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Document · EraWise AP History</title><meta name="description" content="EraWise AP History: free, self-paced AP United States History lessons, one era at a time.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head>
+<body><header class="site-head"><div class="wrap">
+<a class="brand" href="index.html"><div class="nm">Era<span>Wise</span> AP History</div><div class="sb">AP United States History</div></a>
+<nav class="nav" aria-label="Main"><a href="index.html">Home</a><a href="sequence.html">Course Sequence</a><a href="eras.html">Eras</a><a href="exam-prep.html">Exam Prep</a></nav></div></header>
+<main><div class="wrap"><div class="eyebrow" id="v-kind">Document</div><h1 class="page" id="v-title" style="font-size:30px">Loading…</h1>
+<div class="files" style="margin:14px 0"><a class="btn gold" id="v-dl" download>Download PDF</a><a class="btn ghost" id="v-open" target="_blank" rel="noopener">Open full screen</a><a class="btn ghost" href="javascript:history.back()">← Back</a></div>
+<iframe class="viewer" id="v-frame" title="Document"></iframe></div></main>
+<footer class="foot"><div class="wrap">EraWise AP History · Mr. DeRuyter<br>AP is a trademark of the College Board, which is not affiliated with this site. AMSCO readings require your own copy of the AMSCO textbook.</div></footer>
+<script>
+const p=new URLSearchParams(location.search),f=p.get('f')||'',t=p.get('t')||'Document';
+if(/^files\/[a-z0-9\-\/]+\.pdf$/.test(f)){document.getElementById('v-title').textContent=t;document.title=t+' · EraWise AP History';
+document.getElementById('v-kind').textContent=/lectures/.test(f)?'Lecture slides':/homework/.test(f)?'Homework packet':'Document';
+['v-dl','v-open'].forEach(id=>document.getElementById(id).href=f);document.getElementById('v-frame').src=f;}
+else document.getElementById('v-title').textContent='File not found';
+</script></body></html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>APUSH Era 19: Early Cold War (1945-1960s)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #e8e8e8;
+    color: #1a1a1a;
+    line-height: 1.4;
+    padding: 0; margin: 0;
+  }
+  .era {
+    page-break-after: always;
+    width: 8.5in;
+    height: 11in;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .era-header {
+    color: #fff;
+    padding: 30px 40px 24px 40px;
+    position: relative;
+  }
+  .era-header .era-num {
+    position: absolute;
+    top: 20px; right: 30px;
+    background: rgba(255,255,255,0.2);
+    border: 3px solid rgba(255,255,255,0.7);
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: bold;
+  }
+  .era-header h1 { font-size: 32px; margin-bottom: 6px; margin-right: 90px; line-height: 1.1; }
+  .era-header .dates { font-size: 22px; font-weight: 300; opacity: 0.95; letter-spacing: 1px; }
+  .era-header .tagline {
+    margin-top: 14px; font-size: 14px; font-style: italic;
+    background: rgba(0,0,0,0.2); padding: 8px 14px;
+    border-left: 4px solid rgba(255,255,255,0.6);
+    margin-right: 90px;
+  }
+  .era-body { padding: 24px 36px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+  .big-idea {
+    background: #f8f4e8; border-left: 5px solid #c9a44a;
+    padding: 12px 16px; font-size: 13px;
+  }
+  .big-idea .label {
+    font-weight: bold; color: #8a6a1f;
+    text-transform: uppercase; letter-spacing: 1px; font-size: 11px; margin-bottom: 4px;
+  }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; flex: 1; }
+  .col {
+    border: 2px solid #ddd; border-radius: 6px; padding: 14px;
+    display: flex; flex-direction: column;
+  }
+  .col h3 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px;
+    padding-bottom: 8px; margin-bottom: 10px; border-bottom: 2px solid; text-align: center;
+  }
+  .col ul { list-style: none; padding: 0; }
+  .col li {
+    font-size: 11.5px; padding: 4px 0 4px 14px; position: relative;
+    line-height: 1.35; border-bottom: 1px dotted #eee;
+  }
+  .col li:last-child { border-bottom: none; }
+  .col li::before { content: "▸"; position: absolute; left: 0; font-size: 10px; top: 5px; }
+  .col li strong { font-weight: 700; }
+  .col li .yr {
+    background: #1a1a1a; color: #fff; font-size: 9px;
+    padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: bold;
+  }
+  .legacy {
+    background: #1a1a1a; color: #fff; padding: 10px 16px;
+    font-size: 12px; border-radius: 4px;
+  }
+  .legacy .label {
+    font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px;
+    font-size: 10px; color: #ffd700; margin-bottom: 3px;
+  }
+  .era-footer {
+    background: #f0f0f0; color: #555; font-size: 10px;
+    padding: 6px 36px; text-align: center;
+    border-top: 1px solid #ddd; letter-spacing: 1px;
+  }
+
+  /* Era theming for all 25 eras */
+  .e1 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e1 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e1 .col li::before { color: #c9a44a; }
+
+  .e2 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e2 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e2 .col li::before { color: #c9a44a; }
+
+  .e3 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e3 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e3 .col li::before { color: #c9a44a; }
+
+  .e4 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e4 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e4 .col li::before { color: #c9a44a; }
+
+  .e5 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e5 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e5 .col li::before { color: #c9a44a; }
+
+  .e6 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e6 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e6 .col li::before { color: #c9a44a; }
+
+  .e7 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e7 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e7 .col li::before { color: #c9a44a; }
+
+  .e8 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e8 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e8 .col li::before { color: #c9a44a; }
+
+  .e9 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e9 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e9 .col li::before { color: #c9a44a; }
+
+  .e10 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e10 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e10 .col li::before { color: #c9a44a; }
+
+  .e11 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e11 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e11 .col li::before { color: #c9a44a; }
+
+  .e12 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e12 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e12 .col li::before { color: #c9a44a; }
+
+  .e13 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e13 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e13 .col li::before { color: #c9a44a; }
+
+  .e14 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e14 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e14 .col li::before { color: #c9a44a; }
+
+  .e15 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e15 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e15 .col li::before { color: #c9a44a; }
+
+  .e16 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e16 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e16 .col li::before { color: #c9a44a; }
+
+  .e17 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e17 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e17 .col li::before { color: #c9a44a; }
+
+  .e18 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e18 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e18 .col li::before { color: #c9a44a; }
+
+  .e19 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e19 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e19 .col li::before { color: #c9a44a; }
+
+  .e20 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e20 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e20 .col li::before { color: #c9a44a; }
+
+  .e21 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e21 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e21 .col li::before { color: #c9a44a; }
+
+  .e22 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e22 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e22 .col li::before { color: #c9a44a; }
+
+  .e23 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e23 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e23 .col li::before { color: #c9a44a; }
+
+  .e24 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e24 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e24 .col li::before { color: #c9a44a; }
+
+  .e25 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e25 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e25 .col li::before { color: #c9a44a; }
+
+  @media print {
+    body { background: #fff; }
+    .era { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="era e19">
+  <div class="era-header">
+    <div class="era-num">19</div>
+    <h1>Early Cold War Era</h1>
+    <div class="dates">1945 – 1960s</div>
+    <div class="tagline">The U.S. and USSR settle into a global ideological standoff that shapes every facet of American life.</div>
+  </div>
+  <div class="era-body">
+    <div class="big-idea">
+      <div class="label">Big Idea</div>
+      Containment of communism became the organizing principle of U.S. foreign policy — driving foreign aid (Marshall Plan), military alliances (NATO), proxy wars (Korea), nuclear arms racing, and a domestic anti-communist crusade.
+    </div>
+    <div class="three-col">
+      <div class="col">
+        <h3>Key Terms</h3>
+        <ul>
+          <li><strong>Iron Curtain</strong> (Churchill, 1946)</li>
+          <li><strong>Containment</strong> — Kennan's strategy</li>
+          <li><strong>Truman Doctrine</strong> <span class="yr">1947</span></li>
+          <li><strong>Marshall Plan</strong> — European recovery</li>
+          <li><strong>NATO</strong> <span class="yr">1949</span> / <strong>Warsaw Pact</strong></li>
+          <li><strong>NSC-68</strong> — Cold War blueprint</li>
+          <li><strong>Domino theory</strong></li>
+          <li><strong>McCarthyism</strong> — anti-communist witch hunt</li>
+          <li><strong>HUAC</strong> &amp; Hollywood blacklist</li>
+          <li><strong>Sputnik</strong> <span class="yr">1957</span> — space race</li>
+          <li><strong>Military-industrial complex</strong> (Eisenhower)</li>
+          <li><strong>Massive retaliation / Brinkmanship</strong></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Key People</h3>
+        <ul>
+          <li><strong>Harry S. Truman</strong> — containment, Korea</li>
+          <li><strong>Dwight D. Eisenhower</strong> — moderate Republican</li>
+          <li><strong>John F. Kennedy</strong> — Bay of Pigs, Cuban Missile Crisis</li>
+          <li><strong>Joseph McCarthy</strong> — anti-communist senator</li>
+          <li><strong>George Kennan</strong> — "Long Telegram," containment</li>
+          <li><strong>John Foster Dulles</strong> — Sec. of State, brinkmanship</li>
+          <li><strong>Richard Nixon</strong> — VP, Kitchen Debate</li>
+          <li><strong>Joseph Stalin / Nikita Khrushchev</strong> — Soviet leaders</li>
+          <li><strong>Julius &amp; Ethel Rosenberg</strong> — executed for spying</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Key Events</h3>
+        <ul>
+          <li>Yalta &amp; Potsdam Conferences <span class="yr">1945</span></li>
+          <li>Truman Doctrine <span class="yr">1947</span></li>
+          <li>Marshall Plan <span class="yr">1948</span></li>
+          <li>Berlin Airlift <span class="yr">1948–49</span></li>
+          <li>NATO formed <span class="yr">1949</span></li>
+          <li>USSR tests A-bomb / China falls to communism <span class="yr">1949</span></li>
+          <li>Korean War <span class="yr">1950–53</span></li>
+          <li>Army-McCarthy Hearings <span class="yr">1954</span></li>
+          <li>Sputnik launched <span class="yr">1957</span></li>
+          <li>U-2 incident <span class="yr">1960</span></li>
+          <li>Bay of Pigs <span class="yr">1961</span></li>
+          <li>Cuban Missile Crisis <span class="yr">Oct 1962</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legacy">
+      <div class="label">Legacy &amp; Connection</div>
+      Cold War priorities shape U.S. policy through 1991, justify Vietnam, and supercharge defense spending and the surveillance state.
+    </div>
+  </div>
+  <div class="era-footer">APUSH · Period 8 · ERA 19 OF 25</div>
+</div>
+</body>
+</html>

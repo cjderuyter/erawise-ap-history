@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>APUSH Era 12: Gilded Age (1877-1900)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #e8e8e8;
+    color: #1a1a1a;
+    line-height: 1.4;
+    padding: 0; margin: 0;
+  }
+  .era {
+    page-break-after: always;
+    width: 8.5in;
+    height: 11in;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .era-header {
+    color: #fff;
+    padding: 30px 40px 24px 40px;
+    position: relative;
+  }
+  .era-header .era-num {
+    position: absolute;
+    top: 20px; right: 30px;
+    background: rgba(255,255,255,0.2);
+    border: 3px solid rgba(255,255,255,0.7);
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: bold;
+  }
+  .era-header h1 { font-size: 32px; margin-bottom: 6px; margin-right: 90px; line-height: 1.1; }
+  .era-header .dates { font-size: 22px; font-weight: 300; opacity: 0.95; letter-spacing: 1px; }
+  .era-header .tagline {
+    margin-top: 14px; font-size: 14px; font-style: italic;
+    background: rgba(0,0,0,0.2); padding: 8px 14px;
+    border-left: 4px solid rgba(255,255,255,0.6);
+    margin-right: 90px;
+  }
+  .era-body { padding: 24px 36px; flex: 1; display: flex; flex-direction: column; gap: 14px; }
+  .big-idea {
+    background: #f8f4e8; border-left: 5px solid #c9a44a;
+    padding: 12px 16px; font-size: 13px;
+  }
+  .big-idea .label {
+    font-weight: bold; color: #8a6a1f;
+    text-transform: uppercase; letter-spacing: 1px; font-size: 11px; margin-bottom: 4px;
+  }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; flex: 1; }
+  .col {
+    border: 2px solid #ddd; border-radius: 6px; padding: 14px;
+    display: flex; flex-direction: column;
+  }
+  .col h3 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px;
+    padding-bottom: 8px; margin-bottom: 10px; border-bottom: 2px solid; text-align: center;
+  }
+  .col ul { list-style: none; padding: 0; }
+  .col li {
+    font-size: 11.5px; padding: 4px 0 4px 14px; position: relative;
+    line-height: 1.35; border-bottom: 1px dotted #eee;
+  }
+  .col li:last-child { border-bottom: none; }
+  .col li::before { content: "▸"; position: absolute; left: 0; font-size: 10px; top: 5px; }
+  .col li strong { font-weight: 700; }
+  .col li .yr {
+    background: #1a1a1a; color: #fff; font-size: 9px;
+    padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: bold;
+  }
+  .legacy {
+    background: #1a1a1a; color: #fff; padding: 10px 16px;
+    font-size: 12px; border-radius: 4px;
+  }
+  .legacy .label {
+    font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px;
+    font-size: 10px; color: #ffd700; margin-bottom: 3px;
+  }
+  .era-footer {
+    background: #f0f0f0; color: #555; font-size: 10px;
+    padding: 6px 36px; text-align: center;
+    border-top: 1px solid #ddd; letter-spacing: 1px;
+  }
+
+  /* Era theming for all 25 eras */
+  .e1 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e1 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e1 .col li::before { color: #c9a44a; }
+
+  .e2 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e2 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e2 .col li::before { color: #c9a44a; }
+
+  .e3 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e3 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e3 .col li::before { color: #c9a44a; }
+
+  .e4 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e4 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e4 .col li::before { color: #c9a44a; }
+
+  .e5 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e5 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e5 .col li::before { color: #c9a44a; }
+
+  .e6 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e6 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e6 .col li::before { color: #c9a44a; }
+
+  .e7 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e7 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e7 .col li::before { color: #c9a44a; }
+
+  .e8 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e8 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e8 .col li::before { color: #c9a44a; }
+
+  .e9 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e9 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e9 .col li::before { color: #c9a44a; }
+
+  .e10 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e10 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e10 .col li::before { color: #c9a44a; }
+
+  .e11 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e11 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e11 .col li::before { color: #c9a44a; }
+
+  .e12 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e12 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e12 .col li::before { color: #c9a44a; }
+
+  .e13 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e13 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e13 .col li::before { color: #c9a44a; }
+
+  .e14 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e14 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e14 .col li::before { color: #c9a44a; }
+
+  .e15 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e15 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e15 .col li::before { color: #c9a44a; }
+
+  .e16 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e16 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e16 .col li::before { color: #c9a44a; }
+
+  .e17 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e17 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e17 .col li::before { color: #c9a44a; }
+
+  .e18 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e18 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e18 .col li::before { color: #c9a44a; }
+
+  .e19 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e19 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e19 .col li::before { color: #c9a44a; }
+
+  .e20 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e20 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e20 .col li::before { color: #c9a44a; }
+
+  .e21 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e21 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e21 .col li::before { color: #c9a44a; }
+
+  .e22 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e22 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e22 .col li::before { color: #c9a44a; }
+
+  .e23 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e23 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e23 .col li::before { color: #c9a44a; }
+
+  .e24 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e24 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e24 .col li::before { color: #c9a44a; }
+
+  .e25 .era-header { background: linear-gradient(135deg, #7a1f2b, #8f2a39); border-bottom: 4px solid #e0b65a; }
+  .e25 .col h3 { color: #8f2a39; border-color: #e0b65a; }
+  .e25 .col li::before { color: #c9a44a; }
+
+  @media print {
+    body { background: #fff; }
+    .era { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="era e12">
+  <div class="era-header">
+    <div class="era-num">12</div>
+    <h1>Gilded Age</h1>
+    <div class="dates">1877 – 1900</div>
+    <div class="tagline">Glittering wealth on the surface — corruption, inequality, and labor strife underneath.</div>
+  </div>
+  <div class="era-body">
+    <div class="big-idea">
+      <div class="label">Big Idea</div>
+      Explosive industrial growth created a new class of "robber baron" tycoons and transformed America into an urban, immigrant-fueled industrial power — while workers, farmers, and the poor struggled with brutal conditions.
+    </div>
+    <div class="three-col">
+      <div class="col">
+        <h3>Key Terms</h3>
+        <ul>
+          <li><strong>Robber barons / Captains of industry</strong></li>
+          <li><strong>Vertical &amp; horizontal integration</strong></li>
+          <li><strong>Trusts &amp; monopolies</strong></li>
+          <li><strong>Social Darwinism</strong> — "survival of the fittest"</li>
+          <li><strong>Gospel of Wealth</strong> (Carnegie)</li>
+          <li><strong>Laissez-faire</strong> economics</li>
+          <li><strong>Sherman Antitrust Act</strong> <span class="yr">1890</span></li>
+          <li><strong>Populism</strong> — farmer-led political movement</li>
+          <li><strong>Nativism</strong> — anti-immigrant sentiment</li>
+          <li><strong>Chinese Exclusion Act</strong> <span class="yr">1882</span></li>
+          <li><strong>Plessy v. Ferguson</strong> — "separate but equal" <span class="yr">1896</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Key People</h3>
+        <ul>
+          <li><strong>Andrew Carnegie</strong> — steel</li>
+          <li><strong>John D. Rockefeller</strong> — Standard Oil</li>
+          <li><strong>J.P. Morgan</strong> — banking, finance</li>
+          <li><strong>Cornelius Vanderbilt</strong> — railroads/shipping</li>
+          <li><strong>Samuel Gompers</strong> — AFL labor leader</li>
+          <li><strong>Eugene V. Debs</strong> — railway/socialist leader</li>
+          <li><strong>William Jennings Bryan</strong> — "Cross of Gold"</li>
+          <li><strong>Booker T. Washington</strong> — Tuskegee, accommodation</li>
+          <li><strong>Ida B. Wells</strong> — anti-lynching journalist</li>
+          <li><strong>Jane Addams</strong> — Hull House founder</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Key Events</h3>
+        <ul>
+          <li>Transcontinental Railroad completed <span class="yr">1869</span></li>
+          <li>Great Railroad Strike <span class="yr">1877</span></li>
+          <li>Chinese Exclusion Act <span class="yr">1882</span></li>
+          <li>Pendleton Civil Service Act <span class="yr">1883</span></li>
+          <li>Haymarket Riot <span class="yr">1886</span></li>
+          <li>Dawes Act (Native land allotment) <span class="yr">1887</span></li>
+          <li>Sherman Antitrust Act <span class="yr">1890</span></li>
+          <li>Wounded Knee Massacre <span class="yr">1890</span></li>
+          <li>Homestead Strike <span class="yr">1892</span></li>
+          <li>Pullman Strike <span class="yr">1894</span></li>
+          <li>Plessy v. Ferguson <span class="yr">1896</span></li>
+          <li>Spanish-American War <span class="yr">1898</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legacy">
+      <div class="label">Legacy &amp; Connection</div>
+      The excesses of the Gilded Age provoke the Progressive backlash, while America's overseas victory in 1898 opens the imperial chapter.
+    </div>
+  </div>
+  <div class="era-footer">APUSH · Period 6 · ERA 12 OF 25</div>
+</div>
+</body>
+</html>
