@@ -200,3 +200,22 @@ h2.sec{font-size:30px;margin:44px 0 14px}
  .lrow .num{flex-basis:100%}.lrow .files .btn{flex:1 1 30%;justify-content:center}
  .wrap{padding:0 16px}.home-h1{font-size:40px!important}
 }
+/* DBQ guides */
+.dfeat{display:flex;flex-wrap:wrap;gap:0;background:var(--panel);border:1px solid var(--line)}
+.dfeat .dimg{flex:1 1 420px;display:block;background:#fdfbf2}
+.dfeat .dimg img{display:block;width:100%;height:auto}
+.dfeat .dtxt{flex:1 1 320px;padding:22px 24px;display:flex;flex-direction:column;gap:10px;justify-content:center}
+.dfeat .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.dfeat h3{font-size:26px;margin:0}
+.dfeat p{margin:0;color:var(--muted)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.dcard{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column}
+.dcard > a{display:block;background:#fdfbf2;overflow:hidden}
+.dcard img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;object-position:top;transition:transform .3s}
+.dcard > a:hover img{transform:scale(1.03)}
+.dcard .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.dcard .h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dcard h3{font-size:19px;margin:0}
+.dcard .pts{font-weight:700;color:var(--gold);white-space:nowrap}
+.dcard p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.dgrid.four{grid-template-columns:repeat(auto-fill,minmax(225px,1fr))}
