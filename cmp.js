@@ -25,8 +25,8 @@ window.__cmp = async function(pdfName, sel, maxChanges){
     else if(p.removed){ if(inside) changes.push(['SRC+', pos, n, p.value.slice(0,12).join(' ')]); pos+=n; }
     else { common+=n; pos+=n; }
   }
-  // collapse: a PDF-side "zzellipsis" right next to a SRC+ chunk = a MARKED cut
-  const out=[]; for(let i=0;i<changes.length;i++){ const c=changes[i]; if(c[0]=='PDF+' && c[3]=='zzellipsis' && c[2]==1){ const nb=changes[i+1]||changes[i-1]; if(nb && nb[0]=='SRC+'){ nb[0]='CUT(marked)'; continue; } } out.push(c); }
+  // a PDF-side "zzellipsis" marks a cut: SRC+ chunks on either side of it count as MARKED cuts
+  const out=[]; for(let i=0;i<changes.length;i++){ const c=changes[i]; if(c[0]=='PDF+' && c[3]=='zzellipsis' && c[2]==1){ for(const nb of [changes[i-1],changes[i+1]]) if(nb && nb[0]=='SRC+') nb[0]='CUT(marked)'; continue; } out.push(c); }
   return {pdf:pdfName, pdfWords:P.length, srcWords:S.length, span:[firstC,lastC], pdfSpan:[pFirst,pLast], common:common,
           pdfOnly: out.filter(c=>c[0]=='PDF+').reduce((a,c)=>a+c[2],0), unmarkedOmitted: out.filter(c=>c[0]=='SRC+').reduce((a,c)=>a+c[2],0),
           markedCut: out.filter(c=>c[0]=='CUT(marked)').reduce((a,c)=>a+c[2],0), n: out.length, changes: out.slice(0, maxChanges||40)};
