@@ -18,18 +18,18 @@ window.__cmp = async function(pdfName, sel, maxChanges){
   const parts = Diff.diffArrays(S, P);
   let pos=0, firstC=-1, lastC=-1, ppos=0, pFirst=-1, pLast=-1;
   for(const p of parts){ if(!p.added && !p.removed && p.value.length>=6){ if(firstC<0){firstC=pos; pFirst=ppos;} lastC=pos+p.value.length; pLast=ppos+p.value.length; } if(!p.added) pos+=p.value.length; if(!p.removed) ppos+=p.value.length; }
-  let changes=[], common=0; pos=0;
+  let changes=[], common=0, commons=[]; pos=0;
   for(const p of parts){
-    const n=p.value.length, inside = pos>=firstC && pos<=lastC;
+    const n=p.value.length, inside = pos>=firstC && pos<lastC;
     if(p.added){ if(inside) changes.push(['PDF+', pos, n, p.value.slice(0,12).join(' ')]); }
     else if(p.removed){ if(inside) changes.push(['SRC+', pos, n, p.value.slice(0,12).join(' ')]); pos+=n; }
-    else { common+=n; pos+=n; }
+    else { common+=n; if(n>=6) commons.push([pos,n]); pos+=n; }
   }
   // a PDF-side "zzellipsis" marks a cut: SRC+ chunks on either side of it count as MARKED cuts
   const out=[]; for(let i=0;i<changes.length;i++){ const c=changes[i]; if(c[0]=='PDF+' && c[3]=='zzellipsis' && c[2]==1){ for(const nb of [changes[i-1],changes[i+1]]) if(nb && nb[0]=='SRC+') nb[0]='CUT(marked)'; continue; } out.push(c); }
   return {pdf:pdfName, pdfWords:P.length, srcWords:S.length, span:[firstC,lastC], pdfSpan:[pFirst,pLast], common:common,
           pdfOnly: out.filter(c=>c[0]=='PDF+').reduce((a,c)=>a+c[2],0), unmarkedOmitted: out.filter(c=>c[0]=='SRC+').reduce((a,c)=>a+c[2],0),
-          markedCut: out.filter(c=>c[0]=='CUT(marked)').reduce((a,c)=>a+c[2],0), n: out.length, changes: out.slice(0, maxChanges||40)};
+          commons: commons, markedCut: out.filter(c=>c[0]=='CUT(marked)').reduce((a,c)=>a+c[2],0), n: out.length, changes: out.slice(0, maxChanges||40)};
 };
 window.__both = async function(slug, sel, maxChanges){ return [await __cmp(slug+'-full-text.pdf', sel, maxChanges), await __cmp(slug+'-excerpt.pdf', sel, maxChanges)]; };
 "cmp loaded";
